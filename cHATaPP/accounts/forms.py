@@ -1,4 +1,7 @@
+from django.forms import fields
+from accounts.models import Profile
 from django import forms
+from django.contrib.auth import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
@@ -168,3 +171,136 @@ class SignInForm(forms.Form):
         user = authenticate(username = username, password=password)
         
         return user
+
+
+class EditProfileForm(forms.ModelForm):
+
+    first_name = forms.CharField(
+        required = True,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'first-name',
+                'type' : 'text',
+            }
+        )
+    )
+
+    last_name = forms.CharField(
+        required = True,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'last-name',
+                'type' : 'text',
+            }
+        )
+    )
+    
+    phone = forms.CharField(
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'phone-number',
+                'type' : 'text',
+            }
+        )
+    )
+    
+    nickname = forms.CharField(
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'nick-name',
+                'type' : 'text',
+            }
+        )
+    )
+    
+    location = forms.CharField(
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'location',
+                'type' : 'text',
+            }
+        )
+    )
+    
+    bio = forms.CharField(
+        required = False,
+        widget = forms.Textarea(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'rows': 5
+            }
+        )
+    )
+   
+    facebook = forms.CharField(
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'facebook',
+                'type' : 'text',
+                'placeholder' : 'Facebook Link'
+            }
+        )
+    )
+    
+    twitter = forms.CharField(
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'twitter',
+                'type' : 'text',
+                'placeholder' : 'Twitter Link'
+            }
+        )
+    )
+    
+    instagram = forms.CharField(
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'instagram',
+                'type' : 'text',
+                'placeholder' : 'Instagram Link'
+            }
+        )
+    )
+    
+    linkedin = forms.CharField(
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'linkedin',
+                'type' : 'text',
+                'placeholder' : 'Linkedin Link'
+            }
+        )
+    )
+    
+    youtube = forms.CharField(
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class' : 'form-control form-control-lg group_formcontrol',
+                'name' : 'youtube',
+                'type' : 'text',
+                'placeholder' : 'Youtube Link'
+            }
+        )
+    )
+
+
+    class Meta:
+        model = Profile
+        fields = '__all__'

@@ -33,13 +33,13 @@
       <div class="content main_content">
         <div class="sidebar-menu">
           <div class="logo-col">
-            <a href="index.html"><img src="{% static 'img/logo.png' %}" alt="" /></a>
+            <a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" alt="" /></a>
           </div>
           <div class="menus-col">
             <div class="chat-menus">
               <ul>
                 <li>
-                  <a href="index.html" class="chat-unread blue">
+                  <a href="{% url 'home' %}" class="chat-unread blue">
                     <span class="material-icons">message</span>
                     <span>Chats</span>
                   </a>
@@ -63,7 +63,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="settings.html" class="chat-unread">
+                  <a href="{% url 'settings' %}" class="chat-unread">
                     <span class="material-icons">settings</span>
                     <span>Settings</span>
                   </a>

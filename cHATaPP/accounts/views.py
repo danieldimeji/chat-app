@@ -41,3 +41,8 @@ def sign_in_view(request):
         'form':SignInForm
     }
     return render(request, 'sign-in.html', context)
+
+
+def sign_out(request):
+    logout(request)
+    return redirect('sign-in')
