@@ -96,61 +96,75 @@ class SignInForm(forms.Form):
     )
 
     password = forms.CharField(
+        
         widget=forms.TextInput(
+        
             attrs={
                 'class' : 'form-control form-control-lg group_formcontrol',
                 'name' : 'password',
                 'type' : 'password',
             }
+        
         )
+    
     )
 
-    def clean(self):
-    
-        username = self.cleaned_data.get('username_email')
-    
-        password = self.cleaned_data.get('password')
-    
-        qs = User.objects.filter(username=username.lower())
-    
-        if qs.exists():
-    
-            email = qs[0].email
-    
-            user = authenticate(username=email, password=password)
-    
-            if user is None:
-    
-                raise forms.ValidationError("Invalid login details. Make sure details are correct ")
-    
-            return self.cleaned_data
-    
-        else:
-    
-            user = authenticate(username=username.lower(), password=password)
-    
-            if not user or not user.is_active:
-    
-                raise forms.ValidationError("Invalid login details. Make sure details are correct")
-    
-            self.cleaned_data
 
+    def clean(self):
+
+        username_email = self.cleaned_data.get('username_email')
+
+        password = self.cleaned_data.get('password')
+
+        qs_username = User.objects.filter(username=username_email)
+
+        qs_email = User.objects.filter(username=username_email)
+
+        if qs_username.exists():
+
+            print('Authenticating with username')
+
+            user = authenticate(username=username_email, password=password)
+
+            if user is None:
+
+                raise forms.ValidationError("Invalid login details. Make sure details are correct ")
+
+            return self.cleaned_data
+
+        elif qs_email.exists():
+
+            print('Authenticating with email')
+
+            username = qs_email[0].username
+
+            user = authenticate(username = username, password=password)
+
+            if not user or not user.is_active:
+
+                raise forms.ValidationError("Invalid login details. Make sure details are correct")
+
+            self.cleaned_data
     
-    def login(self):
+
+    def login(self, request):
 
         username_email = self.cleaned_data.get('username_email')
         
         password = self.cleaned_data.get('password')
-
-        try:
-            qs = User.objects.get(username=username_email.lower())
-
-            email = qs.email
-                
-        except ObjectDoesNotExist:
         
-            email = username_email.lower()
+        qs = User.objects.filter(username = username_email)
         
-        user = authenticate(email=email, password=password)
+        if qs.exists():
+        
+            username = username_email
+        
+        else:
+
+            qs = User.objects.filter(email = username_email)
+        
+            username = qs[0].username
+        
+        user = authenticate(username = username, password=password)
         
         return user

@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import login, logout
+
 from .forms import *
 
 
@@ -6,6 +8,7 @@ from .forms import *
 def sign_up_view(request):
 
     if request.method == 'POST':
+
         form = SignUpForm(request.POST or None)
         if form.is_valid():
             form.save()
@@ -21,7 +24,20 @@ def sign_up_view(request):
 
 def sign_in_view(request):
 
-    context = {
+    if request.method == 'POST':
 
+        form = SignInForm(request.POST or None)
+        if form.is_valid():
+            user = form.login(request)
+            if user:
+                login(request, user)
+                return redirect('home')
+            else:
+                print(form.errors)
+        else:
+            print(form.errors)
+
+    context = {
+        'form':SignInForm
     }
     return render(request, 'sign-in.html', context)
